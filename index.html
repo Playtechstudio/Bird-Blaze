@@ -1,447 +1,51 @@
-
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Bird Blaze | Playtech Studio</title>
-<style>
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;background:#06152a;font-family:Arial,sans-serif;overflow:hidden}
-#wrap{position:relative;width:100vw;height:100dvh;max-width:1448px;max-height:968px;margin:auto;overflow:hidden;background:#071a32}
-#scene{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;user-select:none}
-#bird{position:absolute;width:14.5%;height:auto;left:19%;top:22%;pointer-events:none;filter:drop-shadow(0 3px 4px #16243b66);z-index:2}
-#hud{position:absolute;top:2%;left:2%;z-index:5;color:white;background:#071b39df;border:2px solid #ffc74b;border-radius:24px;padding:7px 12px;font-weight:bold;font-size:clamp(11px,2vw,20px)}
-#overlay{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:10;background:#04152b99;color:white;text-align:center;padding:12px}
-#overlay.show{display:flex}
-#panel{background:#071c3bea;border:2px solid #ffc44c;border-radius:20px;padding:20px;max-width:94%;max-height:94%;overflow:auto;box-shadow:0 12px 35px #0008}
-#panel h2{margin:0 0 10px;color:#ffca45;font-size:clamp(24px,4vw,40px)}
-#panel p{font-size:clamp(13px,2vw,18px)}
-button{padding:11px 17px;border:0;border-radius:25px;background:#ffbf32;color:#102442;font-size:14px;font-weight:bold;margin:4px;cursor:pointer}
-#rewardBtn,#withdrawBtn{background:#19c6a2;color:#062b35}
-#rewardPanel{display:none;text-align:left;margin-top:12px;min-width:min(310px,78vw)}
-#rewardPanel.show,#methodList.show{display:block}
-#rewardPanel label{display:block;margin:9px 0 4px;font-size:13px;color:#d8e8ff}
-#rewardPanel input,#rewardPanel select{width:100%;padding:10px;border-radius:8px;border:1px solid #7597bd;background:#f7fbff;color:#102442;font-size:15px}
-#rewardStatus,#withdrawStatus{font-size:12px;color:#ffe8a6;line-height:1.5}
-#methodList{display:none}
-#rewardPanel .small{font-size:12px;color:#c9dcf3}
-.hit{position:absolute;bottom:4%;z-index:6;border:0;border-radius:50%;background:transparent;width:14%;height:18%;padding:0;margin:0}
-#flyHit{left:2%;width:16%}
-#pauseHit{right:14%}
-#restartHit{right:1.5%}
-@media(min-aspect-ratio:3/2){
-#wrap{width:min(100vw,150vh);height:min(100dvh,66.6667vw);top:50%;transform:translateY(-50%)}
-}
-</style>
-</head>
-<body>
-<div id="wrap">
-<img id="scene" src="background.jpg" alt="Bird Blaze fantasy background">
-<img id="bird" src="eagle.png" alt="Flying eagle">
-
-<div id="hud">
-⭐ SCORE: <span id="score">0</span>
-&nbsp; BEST: <span id="best">0</span>
-&nbsp; COINS: <span id="coins">0</span>
-</div>
-
-<button id="flyHit" class="hit" aria-label="Fly"></button>
-<button id="pauseHit" class="hit" aria-label="Pause"></button>
-<button id="restartHit" class="hit" aria-label="Restart"></button>
-
-<div id="overlay" class="show">
-<div id="panel">
-<h2 id="panelTitle">BIRD BLAZE</h2>
-<p id="panelText">Fly through the clouds, collect coins and avoid the floating islands.</p>
-<button id="panelBtn">START FLYING</button>
-<button id="rewardsOpenBtn">REWARDS / WITHDRAW</button>
-
-<div id="rewardPanel">
-<h3 style="color:#ffca45">Reward Ads & Withdrawal</h3>
-<p id="rewardProgress">Rewarded ads completed: 0 / 8</p>
-<button id="rewardBtn">WATCH REWARDED AD</button>
-<p id="rewardStatus">Complete 8 real rewarded ads to unlock withdrawal methods.</p>
-
-<div id="methodList">
-<hr>
-<h3 style="color:#7fffe0">Withdrawal Methods Unlocked</h3>
-
-<label for="withdrawMethod">Choose method</label>
-<select id="withdrawMethod">
-<option value="UPI">UPI</option>
-<option value="Bank Transfer">Bank Transfer</option>
-<option value="PayPal">PayPal</option>
-</select>
-
-<label for="withdrawName">Account holder name</label>
-<input id="withdrawName" autocomplete="name" placeholder="Full name">
-
-<label id="detailLabel" for="withdrawDetail">UPI ID</label>
-<input id="withdrawDetail" placeholder="name@bank">
-
-<label for="withdrawAmount">Requested amount (₹)</label>
-<input id="withdrawAmount" type="number" min="1" step="1" placeholder="Amount in INR">
-
-<button id="withdrawBtn">SUBMIT WITHDRAWAL REQUEST</button>
-<p class="small">This form saves a local request only. It does not transfer money.</p>
-<p id="withdrawStatus"></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Bird Blaze | Playtech Studio</title>
+<style>*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#06152a;font-family:Arial,sans-serif;overflow:hidden}#wrap{position:relative;width:100vw;height:100dvh;max-width:1448px;max-height:968px;margin:auto;overflow:hidden;background:#071a32}#scene{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;user-select:none;-webkit-user-drag:none}#bird{position:absolute;width:14.5%;height:auto;left:19.0%;top:22%;pointer-events:none;filter:drop-shadow(0 3px 4px #16243b66);transform-origin:center;z-index:2}#hud{position:absolute;top:2%;left:2%;z-index:5;color:#fff;background:#071b39df;border:2px solid #ffc74b;border-radius:24px;padding:7px 16px;font-weight:700;font-size:clamp(12px,2vw,22px);text-shadow:0 2px 4px #000}#overlay{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:10;background:#04152b99;color:white;text-align:center;padding:20px}#panel{background:#071c3bea;border:2px solid #ffc44c;border-radius:20px;padding:24px;max-width:90%;box-shadow:0 12px 35px #0008}#panel h2{margin:0 0 10px;color:#ffca45;font-size:clamp(24px,4vw,44px)}#panel p{font-size:clamp(14px,2vw,20px)}#panel button{padding:12px 22px;border:0;border-radius:25px;background:#ffbf32;color:#102442;font-size:16px;font-weight:bold;margin:4px}#rewardBtn,#withdrawBtn{background:#19c6a2!important;color:#062b35!important}#rewardPanel{display:none;text-align:left;margin-top:14px;max-height:52vh;overflow:auto;min-width:min(330px,78vw)}#rewardPanel.show{display:block}#rewardPanel label{display:block;margin:9px 0 4px;font-size:13px;color:#d8e8ff}#rewardPanel input,#rewardPanel select{width:100%;padding:10px;border-radius:8px;border:1px solid #7597bd;background:#f7fbff;color:#102442;font-size:15px}#rewardStatus{font-size:13px;color:#ffe8a6;line-height:1.4}#methodList{display:none}#methodList.show{display:block}#rewardPanel .small{font-size:12px;color:#c9dcf3}#touchHint{position:absolute;bottom:2%;left:35%;width:30%;height:12%;z-index:4;background:transparent;border:0;opacity:0}#flyHit{position:absolute;left:2%;bottom:4%;width:16%;height:18%;z-index:6;border:0;border-radius:50%;background:transparent}#pauseHit{position:absolute;right:14%;bottom:4%;width:12%;height:17%;z-index:6;border:0;border-radius:50%;background:transparent}#restartHit{position:absolute;right:1.5%;bottom:4%;width:12%;height:17%;z-index:6;border:0;border-radius:50%;background:transparent}#hint{position:absolute;bottom:19%;left:50%;transform:translateX(-50%);color:white;background:#071b39a8;padding:5px 10px;border-radius:12px;font-size:12px;z-index:4;opacity:0;transition:opacity .5s}#overlay.show{display:flex}@media(min-aspect-ratio:3/2){#wrap{width:min(100vw,150vh);height:min(100dvh,66.6667vw);top:50%;transform:translateY(-50%)}}button:focus-visible{outline:3px solid white}</style></head><body>
+<div id="wrap"><img id="scene" src="background.jpg" alt="Bird Blaze fantasy sky background"><img id="bird" src="eagle.png" alt="Flying eagle"><div id="hud">⭐ SCORE: <span id="score">0</span> &nbsp; BEST: <span id="best">0</span> &nbsp; COINS: <span id="coins">0</span></div><button id="flyHit" aria-label="Fly"></button><button id="pauseHit" aria-label="Pause"></button><button id="restartHit" aria-label="Restart"></button><div id="hint">Tap FLY or press Space</div><div id="overlay" class="show"><div id="panel"><h2 id="panelTitle">BIRD BLAZE</h2><p id="panelText">Fly through the clouds, collect coins and avoid the floating islands. Watch 8 completed rewarded ads to unlock withdrawal request methods.</p><button id="panelBtn">START FLYING</button><button id="rewardsOpenBtn" type="button">REWARDS / WITHDRAW</button><div id="rewardPanel"><h3 style="margin:14px 0 8px;color:#ffca45">Reward Ads & Withdrawal</h3><p id="rewardProgress">Rewarded ads completed: 0 / 8</p><button id="rewardBtn" type="button">WATCH REWARDED AD</button><p id="rewardStatus">Complete 8 real rewarded ads to unlock withdrawal request methods. Ads must be configured by GameDistribution first.</p><div id="methodList"><hr style="border-color:#45688e"><h3 style="color:#7fffe0">Withdrawal methods unlocked</h3><label for="withdrawMethod">Choose method</label><select id="withdrawMethod"><option value="UPI">UPI</option><option value="Bank Transfer">Bank Transfer</option><option value="PayPal">PayPal</option></select><label for="withdrawName">Account holder name</label><input id="withdrawName" autocomplete="name" placeholder="Full name"><label for="withdrawDetail" id="detailLabel">UPI ID</label><input id="withdrawDetail" placeholder="Enter UPI ID"><label for="withdrawAmount">Requested amount (₹)</label><input id="withdrawAmount" type="number" min="1" step="1" placeholder="Amount in INR"><button id="withdrawBtn" type="button">SUBMIT WITHDRAWAL REQUEST</button><p class="small">This submits a local request only. Actual payouts require a secure server, eligibility rules, and verified payment processing.</p><p id="withdrawStatus" class="small"></p></div></div></div></div>
 <script>
-"use strict";
-(()=>{
-const $=id=>document.getElementById(id);
-const bird=$("bird"),wrap=$("wrap");
-let y=.29,vy=0,score=0,coins=0,best=0;
-let running=false,paused=false,ended=false,last=0;
-let scoreCarry=0,coinList=[],coinSpawn=0;
-
-try{best=Number(localStorage.getItem("birdBlazeBest"))||0}catch(e){}
-$("best").textContent=best;
-
-/* Reward count is increased only after the ad provider confirms completion. */
-const TARGET=8;
-let rewardedCount=0;
-try{
-rewardedCount=Number(localStorage.getItem("birdBlazeRewardedAds"))||0;
-}catch(e){}
-rewardedCount=Math.max(0,Math.min(TARGET,rewardedCount));
-
-const rewardPanel=$("rewardPanel");
-const methodList=$("methodList");
-
-function updateRewards(){
-$("rewardProgress").textContent=
-"Rewarded ads completed: "+rewardedCount+" / "+TARGET;
-
-$("rewardBtn").textContent=rewardedCount>=TARGET
-?"ADS COMPLETED ✓"
-:"WATCH REWARDED AD ("+rewardedCount+"/"+TARGET+")";
-
-methodList.classList.toggle("show",rewardedCount>=TARGET);
-
-if(rewardedCount>=TARGET){
-$("rewardStatus").textContent=
-"Unlocked! Choose a withdrawal method and submit a request.";
-}
-}
-
-$("rewardsOpenBtn").addEventListener("click",()=>{
-rewardPanel.classList.toggle("show");
-updateRewards();
-});
-
-$("withdrawMethod").addEventListener("change",()=>{
-const method=$("withdrawMethod").value;
-$("detailLabel").textContent=
-method==="UPI"?"UPI ID":
-method==="Bank Transfer"?"Bank account number / IFSC":
-"PayPal email";
-
-$("withdrawDetail").placeholder=
-method==="UPI"?"name@bank":
-method==="Bank Transfer"?"Account number and IFSC":
-"name@example.com";
-});
-
-/*
-IMPORTANT:
-Connect the current official GameDistribution rewarded-ad SDK here.
-Do not increase the count just because a button was clicked.
-This handler intentionally refuses to grant a reward when no verified
-rewarded-ad provider is connected.
-*/
-$("rewardBtn").addEventListener("click",async()=>{
-if(rewardedCount>=TARGET){
-$("rewardStatus").textContent="All 8 rewarded ads are complete.";
-return;
-}
-
-if(typeof window.birdBlazeShowRewardedAd!=="function"){
-$("rewardStatus").textContent=
-"Rewarded ads are not configured. Connect the approved GameDistribution SDK first. No reward was added.";
-return;
-}
-
-const button=$("rewardBtn");
-button.disabled=true;
-button.textContent="LOADING AD…";
-
-try{
-const completed=await window.birdBlazeShowRewardedAd();
-
-if(completed===true){
-rewardedCount=Math.min(TARGET,rewardedCount+1);
-try{
-localStorage.setItem("birdBlazeRewardedAds",String(rewardedCount));
-}catch(e){}
-$("rewardStatus").textContent="Rewarded ad completed successfully.";
-}else{
-$("rewardStatus").textContent="Ad was not completed. No reward added.";
-}
-}catch(error){
-$("rewardStatus").textContent="Ad unavailable. No reward added.";
-}finally{
-button.disabled=false;
-updateRewards();
-}
-});
-
-$("withdrawBtn").addEventListener("click",()=>{
-if(rewardedCount<TARGET){
-$("withdrawStatus").textContent="Complete 8 rewarded ads first.";
-return;
-}
-
-const name=$("withdrawName").value.trim();
-const detail=$("withdrawDetail").value.trim();
-const amount=Number($("withdrawAmount").value);
-
-if(!name||!detail||!Number.isFinite(amount)||amount<=0){
-$("withdrawStatus").textContent="Please fill all fields with valid details.";
-return;
-}
-
-const request={
-method:$("withdrawMethod").value,
-name:name,
-detail:detail,
-amount:amount,
-createdAt:new Date().toISOString(),
-status:"Pending local request"
+// Replace YOUR_GAMEDISTRIBUTION_GAME_ID with the real ID from the GameDistribution dashboard.
+window["GD_OPTIONS"] = {
+  gameId: "YOUR_GAMEDISTRIBUTION_GAME_ID",
+  onEvent: function(event) {
+    if (!event || !event.name) return;
+    if (event.name === "SDK_GAME_PAUSE") { window.__birdBlazePausedByAd = true; }
+    if (event.name === "SDK_GAME_START") { window.__birdBlazePausedByAd = false; }
+    if (event.name === "SDK_REWARDED_WATCH_COMPLETE") {
+      if (window.__birdBlazeRewardCallback) window.__birdBlazeRewardCallback();
+    }
+  }
 };
-
-let requests=[];
-try{
-requests=JSON.parse(localStorage.getItem("birdBlazeWithdrawalRequests")||"[]");
-if(!Array.isArray(requests))requests=[];
-}catch(e){requests=[]}
-
-requests.push(request);
-
-try{
-localStorage.setItem("birdBlazeWithdrawalRequests",JSON.stringify(requests));
-$("withdrawStatus").textContent=
-"Request saved on this device only. No money has been sent.";
-}catch(e){
-$("withdrawStatus").textContent=
-"Could not save request on this device. No money has been sent.";
-}
-});
-
-updateRewards();
-
-function placeBird(){
-bird.style.top=(y*100)+"%";
-}
-
-function start(){
-score=0;
-coins=0;
-y=.29;
-vy=0;
-scoreCarry=0;
-coinSpawn=0;
-coinList=[];
-running=true;
-paused=false;
-ended=false;
-
-$("overlay").classList.remove("show");
-$("panelTitle").textContent="BIRD BLAZE";
-$("panelBtn").textContent="START FLYING";
-$("score").textContent="0";
-$("coins").textContent="0";
-
-last=performance.now();
-placeBird();
-}
-
-function flap(){
-if(ended||!running){
-start();
-return;
-}
-if(paused)return;
-vy=-.48;
-}
-
-function endGame(){
-running=false;
-ended=true;
-best=Math.max(best,score);
-try{
-localStorage.setItem("birdBlazeBest",String(best));
-}catch(e){}
-$("best").textContent=best;
-$("panelTitle").textContent="GAME OVER";
-$("panelText").textContent=
-"Score: "+score+" · Coins: "+coins+" · Best: "+best;
-$("panelBtn").textContent="PLAY AGAIN";
-$("overlay").classList.add("show");
-}
-
-function togglePause(){
-if(ended||!running)return;
-paused=!paused;
-
-if(paused){
-$("panelTitle").textContent="PAUSED";
-$("panelText").textContent="Your flight is paused.";
-$("panelBtn").textContent="RESUME";
-$("overlay").classList.add("show");
-}else{
-$("overlay").classList.remove("show");
-}
-}
-
-$("flyHit").addEventListener("pointerdown",e=>{
-e.preventDefault();
-flap();
-});
-
-$("pauseHit").addEventListener("pointerdown",e=>{
-e.preventDefault();
-togglePause();
-});
-
-$("restartHit").addEventListener("pointerdown",e=>{
-e.preventDefault();
-start();
-});
-
-$("panelBtn").addEventListener("click",()=>{
-if(paused&&!ended){
-paused=false;
-$("overlay").classList.remove("show");
-}else{
-start();
-}
-});
-
-wrap.addEventListener("pointerdown",e=>{
-if(e.target===$("scene")||e.target===bird)flap();
-});
-
-window.addEventListener("keydown",e=>{
-if(["Space","ArrowUp","KeyW"].includes(e.code)){
-e.preventDefault();
-if(!e.repeat)flap();
-}
-if(e.code==="KeyP")togglePause();
-if(e.code==="KeyR")start();
-});
-
-function loop(now){
-const dt=Math.min(.035,(now-last)/1000||0);
-last=now;
-
-if(running&&!paused){
-scoreCarry+=dt*12;
-const earned=Math.floor(scoreCarry);
-
-if(earned>0){
-score+=earned;
-scoreCarry-=earned;
-}
-
-$("score").textContent=score;
-
-/* Bird flight movement */
-vy+=.42*dt;
-y+=vy*dt;
-
-if(y<.12){
-y=.12;
-vy=0;
-}
-
-if(y>.72){
-endGame();
-}
-
-placeBird();
-
-/* Spawn collectible coins */
-coinSpawn+=dt;
-
-if(coinSpawn>1.25){
-coinSpawn=0;
-const cy=.22+Math.random()*.38;
-
-for(let i=0;i<3;i++){
-coinList.push({
-x:1.04+i*.055,
-y:cy,
-taken:false
-});
-}
-}
-
-for(const c of coinList){
-c.x-=.42*dt;
-
-if(!c.taken&&Math.abs(c.x-.26)<.045&&Math.abs(c.y-y)<.075){
-c.taken=true;
-coins++;
-score+=10;
-$("coins").textContent=coins;
-$("score").textContent=score;
-}
-}
-
-coinList=coinList.filter(c=>c.x>-.1&&!c.taken);
-
-/* Approximate collision zones for floating islands */
-const zones=[
-{x:.55,y:.02,w:.13,h:.34},
-{x:.45,y:.42,w:.12,h:.35},
-{x:.95,y:.02,w:.05,h:.30}
-];
-
-for(const z of zones){
-const bx=.26,by=y+.035;
-if(bx+.07>z.x&&bx<z.x+z.w&&by+.04>z.y&&by<z.y+z.h){
-endGame();
-break;
-}
-}
-}
-
-/* Draw moving coins over the unchanged background image */
-let layer=$("coinLayer");
-
-if(!layer){
-layer=document.createElement("div");
-layer.id="coinLayer";
-layer.style.cssText=
-"position:absolute;inset:0;pointer-events:none;z-index:3";
-wrap.appendChild(layer);
-}
-
-layer.innerHTML=coinList.map(c=>
-'<span style="position:absolute;left:'+(c.x*100)+
-'%;top:'+(c.y*100)+
-'%;transform:translate(-50%,-50%);font-size:clamp(18px,3vw,34px);filter:drop-shadow(0 0 5px #ffd44b)">🪙</span>'
-).join("");
-
-requestAnimationFrame(loop);
-}
-
-$("scene").addEventListener("error",()=>{
-$("panelTitle").textContent="IMAGE MISSING";
-$("panelText").textContent=
-"Keep background.jpg and eagle.png beside index.html.";
-$("overlay").classList.add("show");
-});
-
-requestAnimationFrame(loop);
-})();
+(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://html5.api.gamedistribution.com/main.min.js";fjs.parentNode.insertBefore(js,fjs);})(document,"script","gamedistribution-jssdk");
 </script>
-</body>
-</html>
+<script>'use strict';(()=>{const $=id=>document.getElementById(id);const bird=$('bird'),wrap=$('wrap'),scene=$('scene');let y=0.29,vy=0,score=0,coins=0,best=0,running=false,paused=false,ended=false,last=0,elapsed=0,scoreCarry=0,coinList=[],obsList=[],spawn=0,coinSpawn=0;try{best=+(localStorage.getItem('birdBlazeBest')||0)}catch(e){}$('best').textContent=best;
+// GameDistribution SDK: only SDK_REWARDED_WATCH_COMPLETE grants progress.
+const REWARD_TARGET=8;let rewardedCount=0;let waitingForReward=false;let adTimeout=null;try{rewardedCount=Number(localStorage.getItem('birdBlazeRewardedAds')||0)}catch(e){}rewardedCount=Math.max(0,Math.min(REWARD_TARGET,rewardedCount));
+const rewardPanel=$('rewardPanel'),methodList=$('methodList');
+function updateRewards(){ $('rewardProgress').textContent='Rewarded ads completed: '+rewardedCount+' / '+REWARD_TARGET; $('rewardBtn').textContent=rewardedCount>=REWARD_TARGET?'ADS COMPLETED ✓':'WATCH REWARDED AD ('+rewardedCount+'/'+REWARD_TARGET+')'; methodList.classList.toggle('show',rewardedCount>=REWARD_TARGET); if(rewardedCount>=REWARD_TARGET)$('rewardStatus').textContent='Unlocked! Choose a withdrawal method and submit a request.'; }
+window.__birdBlazeRewardCallback=()=>{if(!waitingForReward)return;waitingForReward=false;if(adTimeout)clearTimeout(adTimeout);rewardedCount=Math.min(REWARD_TARGET,rewardedCount+1);try{localStorage.setItem('birdBlazeRewardedAds',String(rewardedCount))}catch(e){}$('rewardBtn').disabled=false;$('rewardStatus').textContent='Rewarded ad completed successfully.';updateRewards()};
+$('rewardsOpenBtn').addEventListener('click',()=>{rewardPanel.classList.toggle('show');updateRewards()});
+$('withdrawMethod').addEventListener('change',()=>{const m=$('withdrawMethod').value;$('detailLabel').textContent=m==='UPI'?'UPI ID':m==='Bank Transfer'?'Bank account number / IFSC':'PayPal email';$('withdrawDetail').placeholder=m==='UPI'?'name@bank':m==='Bank Transfer'?'Account number and IFSC':'name@example.com'});
+$('rewardBtn').addEventListener('click',()=>{if(rewardedCount>=REWARD_TARGET){$('rewardStatus').textContent='All 8 rewarded ads are complete.';return}if(!window.gdsdk||typeof window.gdsdk.showAd!=='function'){ $('rewardStatus').textContent='GameDistribution ads are not active yet. Add your real Game ID in GD_OPTIONS and test the game in the GameDistribution upload preview. No reward was added.';return}if(waitingForReward)return;waitingForReward=true;$('rewardBtn').disabled=true;$('rewardBtn').textContent='LOADING AD…';$('rewardStatus').textContent='Please watch the rewarded ad until it finishes.';try{window.gdsdk.showAd('rewarded');if(adTimeout)clearTimeout(adTimeout);adTimeout=setTimeout(()=>{if(waitingForReward){waitingForReward=false;$('rewardBtn').disabled=false;updateRewards();$('rewardStatus').textContent='Ad did not confirm completion. No reward was added.'}},120000)}catch(err){waitingForReward=false;$('rewardBtn').disabled=false;updateRewards();$('rewardStatus').textContent='Ad unavailable. No reward was added.'}});
+$('withdrawBtn').addEventListener('click',()=>{if(rewardedCount<REWARD_TARGET){$('withdrawStatus').textContent='Complete 8 rewarded ads first.';return}const name=$('withdrawName').value.trim(),detail=$('withdrawDetail').value.trim(),amount=Number($('withdrawAmount').value);if(!name||!detail||!Number.isFinite(amount)||amount<=0){$('withdrawStatus').textContent='Please fill all fields with valid details.';return}const req={method:$('withdrawMethod').value,name,detail,amount,createdAt:new Date().toISOString(),status:'Pending local request'};let list=[];try{list=JSON.parse(localStorage.getItem('birdBlazeWithdrawalRequests')||'[]')}catch(e){}list.push(req);try{localStorage.setItem('birdBlazeWithdrawalRequests',JSON.stringify(list))}catch(e){}$('withdrawStatus').textContent='Request saved on this device only. No money has been sent; a secure payout backend is required for real withdrawals.';});updateRewards();
+// Coordinates are normalized to the supplied reference artwork. Islands remain part of the exact background; collision zones use their positions.
+function start(){score=0;coins=0;y=.29;vy=0;elapsed=0;scoreCarry=0;spawn=0;coinSpawn=0;coinList=[];obsList=[];running=true;paused=false;ended=false;$('overlay').classList.remove('show');$('score').textContent='0';$('coins').textContent='0';$('pauseHit').setAttribute('aria-label','Pause');last=performance.now();placeBird()}
+function placeBird(){bird.style.top=(y*100)+'%';}
+function flap(){if(ended||!running){start();return}if(paused)return;vy=-.32;}
+function end(){running=false;ended=true;best=Math.max(best,score);try{localStorage.setItem('birdBlazeBest',String(best))}catch(e){}$('best').textContent=best;$('panelTitle').textContent='GAME OVER';$('panelText').textContent='Score: '+score+' · Coins: '+coins+' · Best: '+best;$('panelBtn').textContent='PLAY AGAIN';$('overlay').classList.add('show')}
+function togglePause(){if(ended||!running)return;paused=!paused;if(paused){$('panelTitle').textContent='PAUSED';$('panelText').textContent='Your flight is paused.';$('panelBtn').textContent='RESUME';$('overlay').classList.add('show')}else $('overlay').classList.remove('show')}
+function resize(){placeBird()}window.addEventListener('resize',resize);
+$('flyHit').addEventListener('pointerdown',e=>{e.preventDefault();flap()});$('pauseHit').addEventListener('pointerdown',e=>{e.preventDefault();togglePause()});$('restartHit').addEventListener('pointerdown',e=>{e.preventDefault();start()});$('panelBtn').addEventListener('click',()=>{if(paused&&!ended){paused=false;$('overlay').classList.remove('show')}else start()});wrap.addEventListener('pointerdown',e=>{if(e.target===scene||e.target===bird)flap()});window.addEventListener('keydown',e=>{if(['Space','ArrowUp','KeyW'].includes(e.code)){e.preventDefault();if(!e.repeat)flap()}if(e.code==='KeyP')togglePause();if(e.code==='KeyR')start()});
+function loop(now){let dt=Math.min(.035,(now-last)/1000||0);last=now;if(running&&!paused&&!window.__birdBlazePausedByAd){elapsed+=dt;scoreCarry+=dt*12;const earned=Math.floor(scoreCarry);if(earned>0){score+=earned;scoreCarry-=earned}$('score').textContent=score;
+// Natural continuous flight plus flap impulse. Keep the eagle inside the playable sky area.
+vy*=Math.max(0,1-2.8*dt);y+=Math.sin(elapsed*2.0)*.0009; y+=vy*dt; if(y<.12){y=.12;vy=0} if(y>.69){y=.69;vy=0} placeBird();
+// Coin rows scroll from the right; the supplied background coins remain part of the artwork.
+coinSpawn+=dt;if(coinSpawn>1.25){coinSpawn=0;let cy=.22+Math.random()*.38;for(let i=0;i<3;i++)coinList.push({x:1.04+i*.055,y:cy,taken:false})}
+for(const c of coinList){c.x-=.42*dt;if(!c.taken&&Math.abs(c.x-.26)<.045&&Math.abs(c.y-y)<.075){c.taken=true;coins++;score+=10;$('coins').textContent=coins;$('score').textContent=score}}
+coinList=coinList.filter(c=>c.x>-.1&&!c.taken);
+// Island obstacle zones approximate the floating islands shown in the reference. Collision ends the run.
+const zones=[{x:.55,y:.02,w:.13,h:.34},{x:.45,y:.42,w:.12,h:.35},{x:.95,y:.02,w:.05,h:.30}];for(const z of zones){let bx=.26,by=y+.035;if(bx+.07>z.x&&bx<z.x+z.w&&by+.04>z.y&&by<z.y+z.h){end();break}}
+}
+// Dynamic collectible coins rendered over the reference scene.
+let layer=$('coinLayer');if(!layer){layer=document.createElement('div');layer.id='coinLayer';layer.style.cssText='position:absolute;inset:0;pointer-events:none;z-index:3';wrap.appendChild(layer)}layer.innerHTML=coinList.map(c=>'<span style="position:absolute;left:'+(c.x*100)+'%;top:'+(c.y*100)+'%;transform:translate(-50%,-50%);font-size:clamp(18px,3vw,34px);filter:drop-shadow(0 0 5px #ffd44b)">🪙</span>').join('');requestAnimationFrame(loop)}
+scene.addEventListener('error',()=>{document.body.innerHTML='<p style="color:white;padding:30px">Image asset missing. Keep background.jpg and eagle.png beside index.html.</p>'});requestAnimationFrame(loop);
+})();</script></body></html>
