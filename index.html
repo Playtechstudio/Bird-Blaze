@@ -3,583 +3,494 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#087bc5">
-<meta name="description" content="Bird Blaze by PlayTech Studio. Fly through the sky, avoid clouds and collect golden coins.">
-<title>Bird Blaze | PlayTech Studio</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Bird Blaze X | PlayTech Studio</title>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:#071b39;touch-action:none}
-#wrap{position:relative;width:100vw;height:100dvh;overflow:hidden;background:linear-gradient(#075ca7,#1598d3 55%,#b3e7f5)}
-#sky{position:absolute;inset:0;background:radial-gradient(ellipse at 78% 20%,#fff7c9 0 2%,transparent 14%),linear-gradient(#075ca7,#1598d3 55%,#b3e7f5)}
-#scene{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.18;pointer-events:none}
-#brand{position:absolute;z-index:7;top:2%;right:2%;display:flex;align-items:center;gap:7px;color:white;font-weight:900;font-size:clamp(10px,1.7vw,16px);letter-spacing:1px;text-shadow:0 2px 4px #002b55}
-#brandMark{display:grid;place-items:center;width:30px;height:30px;border:2px solid #ffc94b;border-radius:50%;background:#071b39cc;font-size:18px}
-#bird{position:absolute;z-index:4;left:18%;top:42%;width:clamp(78px,13vw,150px);height:auto;object-fit:contain;pointer-events:none;user-select:none;-webkit-user-drag:none;filter:none;transform-origin:center;animation:birdFly .48s ease-in-out infinite alternate}
-@keyframes birdFly{from{transform:translateY(-3px) rotate(-2deg)}to{transform:translateY(4px) rotate(2deg)}}
-.cloud{position:absolute;z-index:2;width:clamp(95px,15vw,190px);height:clamp(44px,7vw,76px);pointer-events:none;filter:drop-shadow(0 5px 6px #174c6b44)}
-.cloud:before,.cloud:after,.cloud span{content:"";position:absolute;background:linear-gradient(180deg,#fff,#eaf7ff);border-radius:100px}
-.cloud:before{width:55%;height:72%;left:7%;bottom:0}
-.cloud:after{width:55%;height:100%;left:27%;bottom:0}
-.cloud span{width:45%;height:75%;right:2%;bottom:0}
-#hud{position:absolute;z-index:6;top:2%;left:2%;max-width:75%;padding:8px 13px;border:2px solid #ffc94b;border-radius:22px;background:#071b39df;color:white;font-weight:800;font-size:clamp(11px,1.9vw,19px);line-height:1.5}
-#controls{position:absolute;z-index:8;inset:auto 0 2.5%;display:flex;justify-content:space-between;align-items:center;padding:0 3%;pointer-events:none}
-.control{pointer-events:auto;border:2px solid #fff9;border-radius:50%;width:clamp(54px,9vw,76px);height:clamp(54px,9vw,76px);background:#08294dcc;color:white;font-weight:900;font-size:16px;touch-action:manipulation}
-#flyBtn{background:#ffc33c;color:#102442;border-color:white}
-#rightControls{display:flex;gap:10px}
-#hint{position:absolute;z-index:6;bottom:15%;left:50%;transform:translateX(-50%);padding:7px 12px;border-radius:14px;background:#061a35b8;color:white;font-size:clamp(11px,1.8vw,15px);white-space:nowrap}
-#overlay{position:absolute;z-index:12;inset:0;display:flex;align-items:center;justify-content:center;padding:16px;background:#04152b99;color:white;text-align:center}
-#panel{width:min(92%,470px);max-height:90%;overflow:auto;padding:clamp(18px,4vw,28px);border:2px solid #ffc94b;border-radius:22px;background:#071c3bf2;box-shadow:0 12px 35px #0008}
-#logo{margin:0 auto 10px;width:64px;height:64px;border:3px solid #ffc94b;border-radius:50%;display:grid;place-items:center;font-size:38px;background:linear-gradient(145deg,#124f80,#061b37)}
-#panel h1{margin:0 0 10px;color:#ffc94b;font-size:clamp(26px,5vw,42px)}
-#panel p{font-size:clamp(13px,2.3vw,17px);line-height:1.45}
-.panelBtn{padding:12px 20px;margin:5px;border:0;border-radius:25px;background:#ffc33c;color:#102442;font-weight:900;font-size:15px;touch-action:manipulation}
-#rewardBtn{background:#1bc6a2}
-#rewardStatus{color:#ffe7a2;font-size:12px!important}
-#rewardBox{margin-top:12px;padding-top:10px;border-top:1px solid #45688e}
-.hidden{display:none!important}
-#footerBrand{position:absolute;z-index:5;bottom:1%;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:2px;color:#fff9}
-@media(orientation:landscape) and (max-height:520px){
-#panel{max-height:86%;padding:12px}
-#logo{width:42px;height:42px;font-size:26px}
-#controls{bottom:1%}
-.control{width:48px;height:48px}
-#hint{bottom:13%}
-}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#77c9f4;font-family:Arial,sans-serif;touch-action:none}
+#game{position:fixed;inset:0}
+canvas{display:block}
+#brand{position:fixed;top:12px;left:50%;transform:translateX(-50%);color:#fff;font-weight:900;letter-spacing:2px;text-shadow:0 2px 8px #123;z-index:3;font-size:16px}
+#hud{position:fixed;top:48px;left:12px;right:12px;display:flex;justify-content:space-between;gap:8px;z-index:3;color:white;font-weight:800;text-shadow:0 2px 5px #123}
+.pill{background:#061c36a8;border:1px solid #ffffff55;border-radius:14px;padding:8px 12px;font-size:13px}
+#controls{position:fixed;bottom:18px;left:0;right:0;display:flex;justify-content:center;gap:12px;z-index:4}
+.ctrl{border:1px solid #ffffff99;background:#06294fc9;color:white;border-radius:16px;padding:13px 19px;font-size:17px;font-weight:900;min-width:64px}
+#panel{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(#00172a66,#00172acc);z-index:5;color:white;text-align:center;padding:24px}
+#card{width:min(92vw,420px);padding:26px 22px;border:1px solid #ffffff55;border-radius:24px;background:#062442dd;box-shadow:0 18px 55px #00152b88}
+#card h1{font-size:32px;margin:0 0 8px;letter-spacing:1px}
+#card p{line-height:1.5;color:#d8edff}
+#mainBtn{border:0;border-radius:14px;padding:14px 30px;background:linear-gradient(135deg,#ffcf45,#ff8a24);color:#251400;font-weight:900;font-size:18px}
+.small{font-size:12px;color:#c5e4ff;margin-top:12px}
 </style>
 </head>
-
 <body>
-<div id="wrap">
 
-<div id="sky"></div>
-<img id="scene" src="background.jpg" alt="">
-
-<div id="brand">
-<span id="brandMark">🦅</span>
-<span>PLAYTECH STUDIO</span>
-</div>
-
-<img id="bird" src="eagle.png" alt="Flying eagle">
+<div id="game"></div>
+<div id="brand">PLAYTECH STUDIO</div>
 
 <div id="hud">
-SCORE: <span id="score">0</span>
-&nbsp; BEST: <span id="best">0</span>
-<br>
-TOTAL COINS: <span id="totalCoins">0</span>
+<div class="pill">SCORE <span id="score">0</span></div>
+<div class="pill">TOTAL COINS <span id="coins">0</span></div>
+<div class="pill">BEST <span id="best">0</span></div>
 </div>
-
-<div id="hint">Tap FLY / press SPACE to flap</div>
 
 <div id="controls">
-<button class="control" id="flyBtn">FLY</button>
-<div id="rightControls">
-<button class="control" id="pauseBtn">Ⅱ</button>
-<button class="control" id="restartBtn">↻</button>
-</div>
+<button class="ctrl" id="left">◀</button>
+<button class="ctrl" id="jump">FLAP</button>
+<button class="ctrl" id="right">▶</button>
+<button class="ctrl" id="rewardsOpenBtn">REWARDS</button>
 </div>
 
-<div id="footerBrand">BIRD BLAZE · PLAYTECH STUDIO</div>
+<div id="rewardPanel" style="display:none;position:fixed;z-index:8;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,390px);max-height:82vh;overflow:auto;padding:20px;border-radius:20px;background:#062442f2;color:white;border:1px solid #ffffff77">
+<h2 style="color:#ffcf45;margin-top:0">REWARDED ADS & WITHDRAW</h2>
+<p id="rewardProgress">Completed ads: 0 / 8</p>
+<button class="ctrl" id="rewardBtn">WATCH REWARDED AD</button>
+<p id="rewardStatus" style="font-size:13px;line-height:1.4">Only a confirmed completed rewarded ad counts.</p>
 
-<div id="overlay">
+<div id="methodList" style="display:none">
+<hr>
+<h3>Withdrawal request</h3>
+<label>Method
+<select id="withdrawMethod">
+<option>UPI</option>
+<option>Bank Transfer</option>
+<option>PayPal</option>
+</select>
+</label>
+
+<input id="withdrawName" placeholder="Account holder name" style="width:100%;padding:10px;margin-top:8px">
+<input id="withdrawDetail" placeholder="UPI ID / account details" style="width:100%;padding:10px;margin-top:8px">
+<input id="withdrawAmount" type="number" min="1" placeholder="Requested amount (₹)" style="width:100%;padding:10px;margin-top:8px">
+
+<button class="ctrl" id="withdrawBtn">SUBMIT REQUEST</button>
+<p id="withdrawStatus" style="font-size:12px"></p>
+<p style="font-size:11px;color:#c8d8e8">Preview only: no details are saved or sent. Real withdrawals need a secure server, eligibility rules and a verified payout provider.</p>
+</div>
+
+<button class="ctrl" id="closeRewards">CLOSE</button>
+</div>
+
 <div id="panel">
-<div id="logo">🦅</div>
-<h1 id="panelTitle">BIRD BLAZE</h1>
-<p id="panelText">
-Fly forward, flap to move up, avoid moving clouds and collect golden coins.
-Your total coins and best score are saved on this device.
-</p>
-<button class="panelBtn" id="mainBtn">START FLYING</button>
-
-<div id="rewardBox">
-<p><strong>Rewarded Ads</strong> · Completed:
-<span id="adCount">0</span>/8</p>
-<button class="panelBtn" id="rewardBtn">WATCH REWARDED VIDEO</button>
-<p id="rewardStatus">Rewarded ads require a real GameDistribution Game ID and approval.</p>
-</div>
-</div>
+<div id="card">
+<h1>🦅 BIRD BLAZE X</h1>
+<p>Fly through the sky, switch lanes and collect golden coins. Dodge the floating storm rocks!</p>
+<button id="mainBtn">PLAY NOW</button>
+<div class="small">Swipe left/right or use arrow keys • FLAP / Space to rise</div>
 </div>
 </div>
 
-<!-- GAMEDISTRIBUTION SDK -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
 <script>
-(function(){
-
-const GAME_ID = "YOUR_GAMEDISTRIBUTION_GAME_ID";
-
-window.__bbAdState = {pause:false};
-
-if(!GAME_ID || GAME_ID==="YOUR_GAMEDISTRIBUTION_GAME_ID") return;
-
-window.GD_OPTIONS = {
-gameId:GAME_ID,
-
-onEvent:function(event){
-
-if(!event || !event.name) return;
-
-if(event.name==="SDK_GAME_PAUSE"){
-window.__bbAdState.pause=true;
-}
-
-if(event.name==="SDK_GAME_START"){
-window.__bbAdState.pause=false;
-}
-
-if(event.name==="SDK_REWARDED_WATCH_COMPLETE"){
-if(typeof window.__bbRewardComplete==="function"){
-window.__bbRewardComplete();
-}
-}
-
+window.GD_OPTIONS={
+gameId:"YOUR_GAMEDISTRIBUTION_GAME_ID",
+onEvent:function(e){
+if(!e||!e.name)return;
+if(e.name==="SDK_GAME_PAUSE")window.__bbAdPaused=true;
+if(e.name==="SDK_GAME_START")window.__bbAdPaused=false;
+if(e.name==="SDK_REWARDED_WATCH_COMPLETE"&&window.__bbRewardCallback)window.__bbRewardCallback();
 }
 };
 
-const script=document.createElement("script");
-script.id="gamedistribution-jssdk";
-script.src="https://html5.api.gamedistribution.com/main.min.js";
-script.async=true;
-document.head.appendChild(script);
-
-})();
+(function(d,id){
+var j=d.createElement("script");
+j.id=id;
+j.src="https://html5.api.gamedistribution.com/main.min.js";
+d.head.appendChild(j);
+})(document,"gamedistribution-jssdk");
 </script>
 
-<!-- GAME ENGINE -->
 <script>
-'use strict';
+(()=>{
+const root=document.getElementById('game');
 
-(function(){
+const scene=new THREE.Scene();
+scene.background=new THREE.Color(0x78c9f4);
+scene.fog=new THREE.Fog(0x78c9f4,38,115);
 
-const $=id=>document.getElementById(id);
-const wrap=$('wrap');
-const bird=$('bird');
-const scene=$('scene');
-const overlay=$('overlay');
+const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,180);
+camera.position.set(0,5.2,11.5);
 
-const STORE={
-coins:'birdBlazeTotalCoins',
-best:'birdBlazeBest',
-ads:'birdBlazeRewardedAds'
+const renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));
+renderer.setSize(innerWidth,innerHeight);
+renderer.shadowMap.enabled=true;
+renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+root.appendChild(renderer.domElement);
+
+scene.add(new THREE.HemisphereLight(0xeaf8ff,0x52718d,2.0));
+
+const sun=new THREE.DirectionalLight(0xffffff,2.3);
+sun.position.set(-5,12,8);
+sun.castShadow=true;
+scene.add(sun);
+
+const mat=(color,rough=.72,metal=0)=>
+new THREE.MeshStandardMaterial({color,roughness:rough,metalness:metal});
+
+const brown=mat(0x65402b);
+const dark=mat(0x38291f);
+const feather=mat(0x795039);
+const white=mat(0xf1eee2);
+const gold=mat(0xffc928,.3,.25);
+const beakMat=mat(0xffb51b,.38);
+const eyeMat=mat(0x090b10,.15);
+
+const bird=new THREE.Group();
+scene.add(bird);
+bird.position.set(0,3.4,2.1);
+
+function ell(parent,m,x,y,z,sx,sy,sz){
+const o=new THREE.Mesh(new THREE.SphereGeometry(1,18,14),m);
+o.position.set(x,y,z);
+o.scale.set(sx,sy,sz);
+o.castShadow=true;
+parent.add(o);
+return o;
+}
+
+ell(bird,brown,0,0,0,.48,.42,.9);
+ell(bird,white,0,.29,-.48,.37,.34,.43);
+ell(bird,white,0,.18,.65,.17,.12,.52);
+
+for(const side of [-1,1]){
+ell(bird,white,side*.31,.34,-.55,.15,.2,.2);
+ell(bird,eyeMat,side*.285,.38,-.72,.045,.05,.035);
+ell(bird,white,side*.29,.46,-.73,.10,.045,.08);
+}
+
+const beak=new THREE.Mesh(new THREE.ConeGeometry(.17,.34,5),beakMat);
+beak.rotation.x=Math.PI/2;
+beak.position.set(0,.16,-.92);
+bird.add(beak);
+
+const wings=[];
+
+for(const side of [-1,1]){
+const pivot=new THREE.Group();
+pivot.position.set(side*.28,.12,-.03);
+bird.add(pivot);
+pivot.rotation.z=side*.12;
+
+const upper=ell(pivot,brown,side*.62,0,0,.72,.12,.34);
+upper.rotation.z=side*-.05;
+
+for(let i=0;i<7;i++){
+const f=ell(pivot,i%2?dark:feather,side*(.48+i*.16),-.025,-.14-i*.025,.27,.055,.13);
+f.rotation.z=side*(.12+i*.07);
+f.rotation.y=-.12;
+}
+
+wings.push({pivot,side});
+}
+
+let lane=0,vy=0,alive=false,score=0,runCoins=0,speed=17,last=0,spawn=0,coinSpawn=0,flightTime=0;
+
+const REWARD_TARGET=8;
+let rewardedCount=Math.min(REWARD_TARGET,Math.max(0,Number(localStorage.getItem('birdBlazeRewardedAds')||0)));
+let waitingReward=false,adTimer=null;
+
+const rewardPanel=document.getElementById('rewardPanel');
+const methodList=document.getElementById('methodList');
+
+function updateRewardUI(){
+document.getElementById('rewardProgress').textContent='Completed ads: '+rewardedCount+' / '+REWARD_TARGET;
+document.getElementById('rewardBtn').textContent=rewardedCount>=REWARD_TARGET?'ADS COMPLETED ✓':'WATCH REWARDED AD ('+rewardedCount+'/'+REWARD_TARGET+')';
+methodList.style.display=rewardedCount>=REWARD_TARGET?'block':'none';
+}
+
+window.__bbRewardCallback=()=>{
+if(!waitingReward)return;
+waitingReward=false;
+clearTimeout(adTimer);
+rewardedCount=Math.min(REWARD_TARGET,rewardedCount+1);
+localStorage.setItem('birdBlazeRewardedAds',String(rewardedCount));
+document.getElementById('rewardStatus').textContent='Ad completion confirmed. Progress saved on this device.';
+document.getElementById('rewardBtn').disabled=false;
+updateRewardUI();
 };
 
-function getNum(key){
-try{
-return Math.max(0,Number(localStorage.getItem(key)||0)||0);
-}catch(e){return 0;}
-}
-
-function saveNum(key,value){
-try{
-localStorage.setItem(key,String(value));
-}catch(e){}
-}
-
-let totalCoins=getNum(STORE.coins);
-let best=getNum(STORE.best);
-let adCount=Math.min(8,getNum(STORE.ads));
-
-let score=0;
-let runCoins=0;
-let y=.43;
-let vy=0;
-let last=0;
-
-let running=false;
-let paused=false;
-let ended=false;
-
-let clouds=[];
-let coinItems=[];
-let cloudTimer=0;
-let coinTimer=0;
-let scoreCarry=0;
-
-let adWaiting=false;
-let adTimer=null;
-
-const birdBox={x:.205,w:.105,h:.085};
-
-$('best').textContent=best;
-$('totalCoins').textContent=totalCoins;
-$('adCount').textContent=adCount;
-
-function placeBird(){
-bird.style.top=(y*100)+'%';
-}
-
-function setOverlay(title,message,button){
-$('panelTitle').textContent=title;
-$('panelText').textContent=message;
-$('mainBtn').textContent=button;
-overlay.classList.remove('hidden');
-}
-
-function start(){
-
-score=0;
-runCoins=0;
-y=.43;
-vy=-.42;
-scoreCarry=0;
-
-clouds.forEach(c=>c.el.remove());
-clouds=[];
-coinItems=[];
-
-cloudTimer=.8;
-coinTimer=.6;
-
-running=true;
-paused=false;
-ended=false;
-last=performance.now();
-
-$('score').textContent=0;
-overlay.classList.add('hidden');
-
-placeBird();
-}
-
-function flap(){
-
-if(!running||ended){
-start();
-vy=-.42;
-return;
-}
-
-if(paused)return;
-
-vy=-.42;
-}
-
-function pause(){
-
-if(!running||ended)return;
-
-paused=!paused;
-
-if(paused){
-setOverlay('PAUSED','Your flight is paused.','RESUME');
-}else{
-overlay.classList.add('hidden');
-}
-
-last=performance.now();
-}
-
-function end(){
-
-if(ended)return;
-
-running=false;
-ended=true;
-
-best=Math.max(best,score);
-saveNum(STORE.best,best);
-
-$('best').textContent=best;
-
-setOverlay(
-'GAME OVER',
-'Score: '+score+
-' · Coins this flight: '+runCoins+
-' · Total coins saved: '+totalCoins,
-'PLAY AGAIN'
-);
-}
-
-function spawnCloud(){
-
-const h=.16+Math.random()*.17;
-const top=.06+Math.random()*(.78-h);
-
-const el=document.createElement('div');
-el.className='cloud';
-el.innerHTML='<span></span>';
-
-wrap.insertBefore(el,$('hud'));
-
-clouds.push({
-el:el,
-x:1.12,
-top:top,
-h:h,
-w:.145
-});
-
-el.style.top=(top*100)+'%';
-}
-
-function spawnCoins(){
-
-const cy=.18+Math.random()*.55;
-
-for(let i=0;i<3;i++){
-coinItems.push({
-x:1.08+i*.075,
-y:cy+(Math.random()-.5)*.045,
-taken:false
-});
-}
-}
-
-function overlaps(a,b){
-return (
-a.x<b.x+b.w &&
-a.x+a.w>b.x &&
-a.y<b.y+b.h &&
-a.y+a.h>b.y
-);
-}
-
-function update(dt){
-
-scoreCarry+=dt*10;
-
-if(scoreCarry>=1){
-const n=Math.floor(scoreCarry);
-score+=n;
-scoreCarry-=n;
-$('score').textContent=score;
-}
-
-vy+=.78*dt;
-y+=vy*dt;
-
-if(y<.035||y>.83){
-end();
-return;
-}
-
-placeBird();
-
-const birdRect={
-x:birdBox.x+.015,
-y:y+.012,
-w:birdBox.w-.025,
-h:birdBox.h-.024
+document.getElementById('rewardsOpenBtn').onclick=()=>{
+rewardPanel.style.display='block';
+updateRewardUI();
 };
 
-cloudTimer+=dt;
-
-if(cloudTimer>1.9){
-cloudTimer=0;
-spawnCloud();
-}
-
-coinTimer+=dt;
-
-if(coinTimer>1.25){
-coinTimer=0;
-spawnCoins();
-}
-
-for(const c of clouds){
-
-c.x-=.34*dt;
-
-c.el.style.left=(c.x*100)+'%';
-c.el.style.width=(c.w*100)+'%';
-c.el.style.height=(c.h*100)+'%';
-
-const cloudRect={
-x:c.x+.018,
-y:c.top+.025,
-w:c.w-.035,
-h:c.h-.04
+document.getElementById('closeRewards').onclick=()=>{
+rewardPanel.style.display='none';
 };
 
-if(overlaps(birdRect,cloudRect)){
-end();
-return;
-}
-}
-
-clouds=clouds.filter(c=>{
-if(c.x<-.25){
-c.el.remove();
-return false;
-}
-return true;
-});
-
-for(const c of coinItems){
-
-c.x-=.34*dt;
-
-if(
-!c.taken &&
-Math.abs(c.x-(birdBox.x+birdBox.w/2))<.065 &&
-Math.abs(c.y-(y+birdBox.h/2))<.09
-){
-
-c.taken=true;
-runCoins++;
-totalCoins++;
-score+=5;
-
-saveNum(STORE.coins,totalCoins);
-
-$('totalCoins').textContent=totalCoins;
-$('score').textContent=score;
-}
-}
-
-coinItems=coinItems.filter(c=>c.x>-.08&&!c.taken);
-}
-
-function renderCoins(){
-
-let layer=$('coinLayer');
-
-if(!layer){
-layer=document.createElement('div');
-layer.id='coinLayer';
-layer.style.cssText='position:absolute;inset:0;z-index:3;pointer-events:none';
-wrap.appendChild(layer);
-}
-
-layer.innerHTML=coinItems.map(c=>
-'<span style="position:absolute;left:'+c.x*100+
-'%;top:'+c.y*100+
-'%;transform:translate(-50%,-50%);font-size:clamp(20px,3vw,34px);filter:drop-shadow(0 0 7px #ffcb36)">🪙</span>'
-).join('');
-}
-
-function loop(now){
-
-const dt=Math.min(.035,Math.max(0,(now-last)/1000||0));
-last=now;
-
-if(
-running &&
-!paused &&
-!(window.__bbAdState&&window.__bbAdState.pause)
-){
-update(dt);
-}
-
-renderCoins();
-requestAnimationFrame(loop);
-}
-
-$('mainBtn').addEventListener('click',()=>{
-if(paused&&!ended){
-paused=false;
-overlay.classList.add('hidden');
-last=performance.now();
-}else{
-start();
-vy=-.55;
-}
-});
-
-$('flyBtn').addEventListener('pointerdown',e=>{
-e.preventDefault();
-flap();
-});
-
-$('pauseBtn').addEventListener('pointerdown',e=>{
-e.preventDefault();
-pause();
-});
-
-$('restartBtn').addEventListener('pointerdown',e=>{
-e.preventDefault();
-start();
-});
-
-wrap.addEventListener('pointerdown',e=>{
-if(e.target===wrap||e.target===scene||e.target===$('sky')){
-flap();
-}
-});
-
-window.addEventListener('keydown',e=>{
-if(['Space','ArrowUp','KeyW'].includes(e.code)){
-e.preventDefault();
-if(!e.repeat)flap();
-}
-if(e.code==='KeyP')pause();
-if(e.code==='KeyR')start();
-});
-
-window.addEventListener('resize',placeBird);
-
-// Rewarded video ad
-$('rewardBtn').addEventListener('click',()=>{
-
-if(adCount>=8){
-$('rewardStatus').textContent='8 rewarded ads completed.';
-return;
-}
+document.getElementById('rewardBtn').onclick=()=>{
+if(rewardedCount>=REWARD_TARGET)return;
 
 if(!window.gdsdk||typeof window.gdsdk.showAd!=='function'){
-$('rewardStatus').textContent='Ad is unavailable. Configure your real Game ID and activate the SDK. No reward was counted.';
+document.getElementById('rewardStatus').textContent='Ads are not active. Enter your approved GameDistribution Game ID and test in its game preview. No ad was counted.';
 return;
 }
 
-if(adWaiting)return;
+if(waitingReward)return;
 
-adWaiting=true;
-$('rewardBtn').disabled=true;
-$('rewardStatus').textContent='Please watch the video until it finishes.';
+waitingReward=true;
+document.getElementById('rewardBtn').disabled=true;
+document.getElementById('rewardStatus').textContent='Watch the full ad to receive progress.';
 
 try{
-
 window.gdsdk.showAd('rewarded');
 
 adTimer=setTimeout(()=>{
-if(adWaiting){
-adWaiting=false;
-$('rewardBtn').disabled=false;
-$('rewardStatus').textContent='No completion confirmation received. No reward was counted.';
+if(waitingReward){
+waitingReward=false;
+document.getElementById('rewardBtn').disabled=false;
+document.getElementById('rewardStatus').textContent='No completion confirmation. No progress added.';
 }
 },120000);
 
-}catch(error){
-
-adWaiting=false;
-$('rewardBtn').disabled=false;
-$('rewardStatus').textContent='Ad could not start. No reward was counted.';
-
+}catch(e){
+waitingReward=false;
+document.getElementById('rewardBtn').disabled=false;
+document.getElementById('rewardStatus').textContent='Ad could not start. No progress added.';
 }
-
-});
-
-window.__bbRewardComplete=function(){
-
-if(!adWaiting)return;
-
-adWaiting=false;
-
-if(adTimer)clearTimeout(adTimer);
-
-adCount=Math.min(8,adCount+1);
-saveNum(STORE.ads,adCount);
-
-$('adCount').textContent=adCount;
-$('rewardBtn').disabled=false;
-$('rewardStatus').textContent='Video completed. Progress saved: '+adCount+'/8.';
-
 };
 
-bird.addEventListener('error',()=>{
-bird.alt='Eagle image not found. Add eagle.png beside index.html.';
-bird.style.opacity='0';
-});
+document.getElementById('withdrawBtn').onclick=()=>{
+if(rewardedCount<REWARD_TARGET)return;
 
-scene.addEventListener('error',()=>{
-scene.style.display='none';
-});
+let name=document.getElementById('withdrawName').value.trim();
+let detail=document.getElementById('withdrawDetail').value.trim();
+let amount=Number(document.getElementById('withdrawAmount').value);
 
-placeBird();
+if(!name||!detail||!Number.isFinite(amount)||amount<=0){
+document.getElementById('withdrawStatus').textContent='Fill all fields correctly.';
+return;
+}
+
+document.getElementById('withdrawStatus').textContent='Form validated. No personal or bank details were saved or sent. Real withdrawal requests are not active until a secure server and verified payout provider are connected.';
+};
+
+updateRewardUI();
+
+const laneX=[-2.7,0,2.7];
+const objects=[];
+
+const floorMat=mat(0x9bdcf4);
+
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(34,180),floorMat);
+floor.rotation.x=-Math.PI/2;
+floor.position.set(0,-1.7,-62);
+floor.receiveShadow=true;
+scene.add(floor);
+
+for(let x of [-4.1,-1.35,1.35,4.1]){
+const line=new THREE.Mesh(new THREE.BoxGeometry(.045,.025,180),mat(0xe9fbff,.5));
+line.position.set(x,-1.68,-62);
+scene.add(line);
+}
+
+const clouds=[];
+
+for(let i=0;i<24;i++){
+let g=new THREE.Group();
+for(let j=0;j<5;j++){
+ell(g,mat(0xffffff,.95),(j-2)*.55,Math.sin(j)*.18,0,.75,.42,.48);
+}
+g.position.set((Math.random()-.5)*28,-3-Math.random()*2,-Math.random()*100);
+scene.add(g);
+clouds.push(g);
+}
+
+function addObj(type,x,z){
+let group=new THREE.Group();
+
+if(type==='coin'){
+const c=new THREE.Mesh(new THREE.TorusGeometry(.42,.13,10,22),gold);
+c.rotation.y=Math.PI/2;
+group.add(c);
+
+const core=new THREE.Mesh(new THREE.CircleGeometry(.31,20),mat(0xffe58b,.25,.2));
+core.rotation.y=Math.PI/2;
+group.add(core);
+group.userData.kind='coin';
+
+}else{
+const rock=new THREE.Mesh(new THREE.DodecahedronGeometry(.9,1),mat(0x687b89));
+rock.scale.set(1.15,1.15,1.1);
+rock.castShadow=true;
+group.add(rock);
+group.userData.kind='rock';
+}
+
+group.position.set(x,type==='coin'?3.2:2.8,z);
+scene.add(group);
+objects.push(group);
+}
+
+function updateHud(){
+document.getElementById('score').textContent=Math.floor(score);
+document.getElementById('coins').textContent=Number(localStorage.birdBlazeTotalCoins||0);
+document.getElementById('best').textContent=Math.max(Number(localStorage.birdBlazeBest||0),Math.floor(score));
+}
+
+function move(d){
+if(!alive)return;
+lane=Math.max(-1,Math.min(1,lane+d));
+}
+
+function flap(){
+if(alive){
+vy=Math.min(vy+2.8,4.5);
+}
+}
+
+function start(){
+objects.splice(0).forEach(o=>scene.remove(o));
+lane=0;
+vy=0;
+flightTime=0;
+bird.position.y=3.4;
+score=0;
+runCoins=0;
+speed=17;
+spawn=0;
+coinSpawn=0;
+alive=true;
+document.getElementById('panel').style.display='none';
+last=performance.now();
 requestAnimationFrame(loop);
+}
+
+function end(){
+alive=false;
+const collected=runCoins;
+runCoins=0;
+localStorage.birdBlazeBest=Math.max(Number(localStorage.birdBlazeBest||0),Math.floor(score));
+updateHud();
+document.querySelector('#card h1').textContent='GAME OVER';
+document.querySelector('#card p').textContent='Score: '+Math.floor(score)+' • Coins collected: '+collected;
+document.getElementById('mainBtn').textContent='PLAY AGAIN';
+document.getElementById('panel').style.display='flex';
+}
+
+function loop(t){
+if(!alive)return;
+
+if(window.__bbAdPaused){
+last=t;
+requestAnimationFrame(loop);
+return;
+}
+
+let dt=Math.min((t-last)/1000,.035);
+last=t;
+score+=dt*10;
+speed=Math.min(29,17+score*.008);
+
+bird.position.x+=(laneX[lane+1]-bird.position.x)*Math.min(1,dt*9);
+
+flightTime+=dt;
+vy*=Math.pow(.08,dt);
+bird.position.y=3.4+Math.sin(flightTime*1.8)*.16+vy*.22;
+
+bird.rotation.z=THREE.MathUtils.lerp(bird.rotation.z,-vy*.045,.12);
+bird.rotation.x=Math.sin(t*.004)*.035;
+
+wings.forEach(w=>{
+w.pivot.rotation.z=w.side*(.15+Math.sin(t*.012)*.62);
+w.pivot.rotation.x=Math.sin(t*.012)*.16;
+});
+
+camera.position.x+=(bird.position.x*.18-camera.position.x)*dt*2;
+camera.lookAt(bird.position.x*.25,2.5,-5);
+
+spawn+=dt;
+coinSpawn+=dt;
+
+if(spawn>Math.max(.62,1.15-score*.0007)){
+spawn=0;
+addObj('rock',laneX[Math.floor(Math.random()*3)],-75);
+}
+
+if(coinSpawn>.42){
+coinSpawn=0;
+let ln=Math.floor(Math.random()*3);
+addObj('coin',laneX[ln],-72);
+}
+
+objects.forEach(o=>{
+o.position.z+=speed*dt;
+
+if(o.userData.kind==='coin')o.rotation.z+=dt*3;
+
+let dx=Math.abs(o.position.x-bird.position.x);
+let dz=Math.abs(o.position.z-bird.position.z);
+let dy=Math.abs(o.position.y-bird.position.y);
+
+if(dz<1.15&&dx<1.05){
+if(o.userData.kind==='coin'){
+runCoins++;
+localStorage.birdBlazeTotalCoins=Number(localStorage.birdBlazeTotalCoins||0)+1;
+scene.remove(o);
+o.userData.kind='gone';
+
+}else if(dy<1.9){
+end();
+}
+}
+});
+
+for(let i=objects.length-1;i>=0;i--){
+if(objects[i].position.z>13||objects[i].userData.kind==='gone'){
+scene.remove(objects[i]);
+objects.splice(i,1);
+}
+}
+
+clouds.forEach(c=>{
+c.position.z+=speed*.32*dt;
+if(c.position.z>18){
+c.position.z=-110;
+c.position.x=(Math.random()-.5)*28;
+}
+});
+
+updateHud();
+renderer.render(scene,camera);
+requestAnimationFrame(loop);
+}
+
+document.getElementById('mainBtn').onclick=start;
+document.getElementById('left').onclick=()=>move(-1);
+document.getElementById('right').onclick=()=>move(1);
+document.getElementById('jump').onclick=flap;
+
+addEventListener('keydown',e=>{
+if(e.key==='ArrowLeft'||e.key==='a')move(-1);
+if(e.key==='ArrowRight'||e.key==='d')move(1);
+if(e.code==='Space'||e.key==='ArrowUp')flap();
+});
+
+let sx=0,sy=0;
+
+renderer.domElement.addEventListener('touchstart',e=>{
+sx=e.touches[0].clientX;
+sy=e.touches[0].clientY;
+},{passive:true});
+
+renderer.domElement.addEventListener('touchend',e=>{
+let dx=e.changedTouches[0].clientX-sx;
+let dy=e.changedTouches[0].clientY-sy;
+if(Math.abs(dx)>35)move(dx>0?1:-1);
+if(dy<-25)flap();
+},{passive:true});
+
+addEventListener('resize',()=>{
+camera.aspect=innerWidth/innerHeight;
+camera.updateProjectionMatrix();
+renderer.setSize(innerWidth,innerHeight);
+});
+
+updateHud();
+renderer.render(scene,camera);
 
 })();
 </script>
-
 </body>
 </html>
